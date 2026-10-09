@@ -1,0 +1,48 @@
+# Dart/Flutter build files
+*.dart.js
+*.js.deps
+*.js.map
+*.jsprogram
+*.bundle.jsprogram
+# Flutter build
+/build/
+/ios/Flutter/flutter_assets/
+/android/.gradle/
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
+# iOS/macOS build
+/ios/**/*.pbxuser/
+/ios/**/*.perspective
+/ios/**/*.xcworkspace/xcuserdata/
+/macos/Flutter/Flutter-Debug.xcconfig
+/macos/Flutter/Flutter-Release.xcconfig
+# Web build
+/web/dart_service_worker.js
+# IDE
+.idea/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+*.iml
+*.swp
+*.swo
+*~
+.DS_Store
+*.log
+# Generated files
+.dart_tool/
+pubspec.lock
+# Environment variables
+.env
+.env.local
+# IDE caches and project files
+.vscode/
+.settings/
+*.sublime-project
+*.sublime-workspace
+# Misc
+*.class
+*.jar
+*.exe
