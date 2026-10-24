@@ -8,66 +8,48 @@ class FakeHttpAdapter implements HttpAdapter {
   Map<String, String>? lastHeaders;
 
   @override
-  Future<HttpResponse> get(
-      Uri uri, {
-        Map<String, String>? headers,
-      }) async {
+  Future<HttpResponse> get(Uri uri, {Map<String, String>? headers}) async {
     lastHeaders = headers;
 
-    return const HttpResponse(
-      statusCode: 200,
-      body: {},
-    );
+    return const HttpResponse(statusCode: 200, body: {});
   }
 
   @override
   Future<HttpResponse> post(
-      Uri uri, {
-        Object? body,
-        Map<String, String>? headers,
-      }) async {
+    Uri uri, {
+    Object? body,
+    Map<String, String>? headers,
+  }) async {
     lastHeaders = headers;
 
-    return const HttpResponse(
-      statusCode: 200,
-      body: {},
-    );
+    return const HttpResponse(statusCode: 200, body: {});
   }
 
   @override
   Future<HttpResponse> put(
-      Uri uri, {
-        Object? body,
-        Map<String, String>? headers,
-      }) async {
-    return const HttpResponse(
-      statusCode: 200,
-      body: {},
-    );
+    Uri uri, {
+    Object? body,
+    Map<String, String>? headers,
+  }) async {
+    return const HttpResponse(statusCode: 200, body: {});
   }
 
   @override
   Future<HttpResponse> patch(
-      Uri uri, {
-        Object? body,
-        Map<String, String>? headers,
-      }) async {
-    return const HttpResponse(
-      statusCode: 200,
-      body: {},
-    );
+    Uri uri, {
+    Object? body,
+    Map<String, String>? headers,
+  }) async {
+    return const HttpResponse(statusCode: 200, body: {});
   }
 
   @override
   Future<HttpResponse> delete(
-      Uri uri, {
-        Object? body,
-        Map<String, String>? headers,
-      }) async {
-    return const HttpResponse(
-      statusCode: 200,
-      body: {},
-    );
+    Uri uri, {
+    Object? body,
+    Map<String, String>? headers,
+  }) async {
+    return const HttpResponse(statusCode: 200, body: {});
   }
 }
 
@@ -80,14 +62,8 @@ void main() {
       adapter: adapter,
     );
 
-    await client.post(
-      '/payments',
-      idempotencyKey: 'request-123',
-    );
+    await client.post('/payments', idempotencyKey: 'request-123');
 
-    expect(
-      adapter.lastHeaders?['Idempotency-Key'],
-      equals('request-123'),
-    );
+    expect(adapter.lastHeaders?['Idempotency-Key'], equals('request-123'));
   });
 }

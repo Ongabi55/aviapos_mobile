@@ -6,36 +6,117 @@ import 'package:aviapos_mobile/core/environment/validation/environment_config_va
 import 'package:aviapos_mobile/core/environment/runtime_environment.dart';
 
 void main() {
+  const validator = EnvironmentConfigValidator();
+
+  EnvironmentConfig config({
+    required RuntimeEnvironment environment,
+    required String apiBaseUrl,
+    String applicationName = 'Avia',
+  }) {
+    return EnvironmentConfig(
+      environment: environment,
+      apiBaseUrl: apiBaseUrl,
+      applicationName: applicationName,
+    );
+  }
+
   test('valid environment configuration passes validation', () {
     const loader = EnvironmentLoader();
-    const validator = EnvironmentConfigValidator();
 
-    final config = loader.load();
-
-    expect(() => validator.validate(config), returnsNormally);
+    expect(() => validator.validate(loader.load()), returnsNormally);
   });
 
   test('empty API base URL fails validation', () {
-    const validator = EnvironmentConfigValidator();
-
-    const config = EnvironmentConfig(
-      environment: RuntimeEnvironment.development,
-      apiBaseUrl: '',
-      applicationName: 'Avia',
+    expect(
+      () => validator.validate(
+        config(environment: RuntimeEnvironment.development, apiBaseUrl: ''),
+      ),
+      throwsA(isA<FormatException>()),
     );
-
-    expect(() => validator.validate(config), throwsA(isA<FormatException>()));
   });
 
   test('empty application name fails validation', () {
-    const validator = EnvironmentConfigValidator();
-
-    const config = EnvironmentConfig(
-      environment: RuntimeEnvironment.development,
-      apiBaseUrl: 'http://localhost:8000',
-      applicationName: '',
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.development,
+          apiBaseUrl: 'http://localhost:8000',
+          applicationName: '',
+        ),
+      ),
+      throwsA(isA<FormatException>()),
     );
+  });
 
-    expect(() => validator.validate(config), throwsA(isA<FormatException>()));
+  test('development permits HTTP', () {
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.development,
+          apiBaseUrl: 'http://localhost:8000',
+        ),
+      ),
+      returnsNormally,
+    );
+  });
+
+  test('test environment permits HTTP', () {
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.test,
+          apiBaseUrl: 'http://localhost:8000',
+        ),
+      ),
+      returnsNormally,
+    );
+  });
+
+  test('staging rejects HTTP', () {
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.staging,
+          apiBaseUrl: 'http://staging.example.com',
+        ),
+      ),
+      throwsA(isA<FormatException>()),
+    );
+  });
+
+  test('production rejects HTTP', () {
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.production,
+          apiBaseUrl: 'http://api.example.com',
+        ),
+      ),
+      throwsA(isA<FormatException>()),
+    );
+  });
+
+  test('staging accepts HTTPS', () {
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.staging,
+          apiBaseUrl: 'https://staging.example.com',
+        ),
+      ),
+      returnsNormally,
+    );
+  });
+
+  test('production accepts HTTPS', () {
+    expect(
+      () => validator.validate(
+        config(
+          environment: RuntimeEnvironment.production,
+          apiBaseUrl: 'https://api.example.com',
+        ),
+      ),
+      returnsNormally,
+    );
   });
 }
