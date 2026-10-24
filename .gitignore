@@ -46,3 +46,7 @@ pubspec.lock
 *.class
 *.jar
 *.exe
+
+# Flutter-generated plugin symlinks and ephemeral build artifacts
+/linux/flutter/ephemeral/
+/linux/flutter/ephemeral/

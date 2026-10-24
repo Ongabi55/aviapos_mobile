@@ -1,4 +1,5 @@
 import '../environment_config.dart';
+import '../runtime_environment.dart';
 
 class EnvironmentConfigValidator {
   const EnvironmentConfigValidator();
@@ -17,6 +18,16 @@ class EnvironmentConfigValidator {
     if (uri.scheme != 'http' && uri.scheme != 'https') {
       throw FormatException(
         'API base URL must use HTTP or HTTPS: ${config.apiBaseUrl}',
+      );
+    }
+
+    final requiresHttps =
+        config.environment == RuntimeEnvironment.staging ||
+        config.environment == RuntimeEnvironment.production;
+
+    if (requiresHttps && uri.scheme != 'https') {
+      throw FormatException(
+        'API base URL must use HTTPS in ${config.environment.name}.',
       );
     }
   }

@@ -21,6 +21,5 @@ class HttpResponse {
   });
 
   /// True if the request completed successfully.
-  bool get isSuccess =>
-      statusCode >= 200 && statusCode < 300;
+  bool get isSuccess => statusCode >= 200 && statusCode < 300;
 }
